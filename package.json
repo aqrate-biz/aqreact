@@ -1,6 +1,6 @@
 {
-  "name": "aqreact",
-  "version": "1.0.0",
+  "name": "@aqrate-biz/aqreact",
+  "version": "0.0.2",
   "description": "Libreria di componenti React per Aqrate",
   "main": "index.js",
   "module": "index.js",
@@ -26,7 +26,7 @@
   "author": "Daniele Paviani",
   "license": "MIT",
   "peerDependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   }
 }
