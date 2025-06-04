@@ -1,9 +1,9 @@
 import React from 'react';
-import { CounterComponent } from '../src/index.jsx';
+import { DataProvider } from '../index.jsx';
 
 export default {
-  component: CounterComponent,
-  title: 'Counter'
+  component: DataProvider,
+  title: 'DataProvider',
 };
 
-export const Placeholder = () => <CounterComponent />;
+export const Placeholder = () => <DataProvider />;

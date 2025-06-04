@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useDataContext, getSetFunctionName } from './DataProvider.js';
+import { useDataContext, getSetFunctionName } from './DataProvider.jsx';
 
 export default function DataLoader({ type, dataKey, options }) {
 
