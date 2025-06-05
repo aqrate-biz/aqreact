@@ -1,6 +1,6 @@
 {
   "name": "@aqrate-biz/aqreact",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "Libreria di componenti React per Aqrate",
   "type": "module",
   "main": "dist/index.cjs.js",
