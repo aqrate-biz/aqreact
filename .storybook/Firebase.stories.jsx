@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Firebase from '../src/components/Firebase.jsx';
 import User from '../src/components/User.jsx';
 import FirebaseUser from '../src/components/FirebaseUser.jsx';
 import { useFirebaseAnonymousAuth } from '../src/hooks/useFirebaseAnonymousAuth.jsx';
-
+import { useFirestore } from '../src/hooks/useFirestore.jsx';
 
 export default {
   component: Firebase,
@@ -61,6 +61,88 @@ export const FirebaseAnonymousAuth = {
                     <AnonymousAuth />
                 </FirebaseUser>
             </User>
+        </Firebase>
+    )
+}
+
+function AddToFirestore() {
+    const firestore = useFirestore();
+    const addData = () => {
+        firestore.set('testCollection', 'test',{ name: 'Test Document', createdAt: new Date() })
+            .then(() => console.log('Document added successfully'))
+            .catch((error) => console.error('Error adding document:', error));
+    };
+
+    return (
+        <button onClick={addData}>
+            Add Document to Firestore
+        </button>
+    );
+}
+function GetFromFirestore() {
+    const firestore = useFirestore();
+    const [data, setData] = useState(null);
+    const getData = () => {
+        firestore.get('testCollection', 'test')
+            .then((doc) => {
+                if (doc) {
+                    console.log('Document data:', doc);
+                    setData(doc);
+                } else {
+                    console.log('No such document!');
+                    setData(null);
+                }
+            })
+            .catch((error) => console.error('Error getting document:', error));
+    };
+
+    return (
+        <div>
+            <button onClick={getData}>
+                Get Document from Firestore
+            </button>
+            <h2>{data && data.name}</h2>
+        </div>
+    );
+}
+
+function ListenToFirestore() {
+    const firestore = useFirestore();
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+        const unsubscribe = listenData();
+        return unsubscribe
+    }, []);
+    const listenData = () => {
+        const unsubscribe = firestore.listen('testCollection', 'test', (doc) => {
+            if (doc) {
+                console.log('Document data:', doc);
+                setData(doc);
+            } else {
+                console.log('No such document!');
+                setData(null);
+            }
+        });
+        return () => unsubscribe();
+    };
+
+    return (
+        <div>
+            
+            <h2>{data && data.name}</h2>
+        </div>
+    );
+}
+
+
+
+export const Firestore = {
+    render: (args) => (
+        <Firebase config={config}>
+            <AddToFirestore />
+            <GetFromFirestore />
+            <ListenToFirestore />
         </Firebase>
     )
 }
