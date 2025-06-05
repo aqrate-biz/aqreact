@@ -17,11 +17,13 @@ import { NomeComponente } from 'aqreact';
 ```
 
 ### License
-MIT license, Copyright (c) Juan Pablo Mejia Duque. For more information see `LICENSE`.
+MIT license, Copyright (c) Aqrate. For more information see `LICENSE`.
 
 ## Components
 
 [User](docs/User.md)
+[Firebase](docs/Firebase.md)
+[FirebaseUser](docs/FirebaseUser.md)
 
 ## Hooks
 
