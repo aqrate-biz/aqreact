@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useState } from "react";
 
-import initSchema from "./lib/initSchema.js";
+import initSchema from "../lib/initSchema.js";
 
 const UserContext = createContext({
     user: null,
@@ -17,8 +17,8 @@ export default function User({ children, userSchema }) {
             }
         }
     }
-
-    const [user, setUser] = useState(initSchema(userSchema));
+    const initUser = initSchema(userSchema);
+    const [user, setUser] = useState(initUser);
 
     const provider = {
         user,

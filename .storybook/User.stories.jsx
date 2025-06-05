@@ -1,5 +1,5 @@
 import React from 'react';
-import User from '../src/User.jsx';
+import User from '../src/components/User.jsx';
 import { useUser } from '../src/hooks/useUser.jsx';
 
 

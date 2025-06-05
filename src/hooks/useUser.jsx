@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useUserContext } from "../User.jsx";
+import { useUserContext } from "../components/User.jsx";
 
 export function useUser() {
     const uc = useUserContext();
@@ -9,7 +9,7 @@ export function useUser() {
     }
     for(const key in uc.getUserSchema()){
         if(!uc.hasOwnProperty(key)) {
-            uc[key] = uc.user[key] || null;
+            uc[key] = (uc.user && uc.user[key]) || null;
         }
     }
     return uc;
