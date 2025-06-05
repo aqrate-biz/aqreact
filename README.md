@@ -21,9 +21,9 @@ MIT license, Copyright (c) Juan Pablo Mejia Duque. For more information see `LIC
 
 ## Components
 
-[User](docs/User.md)User
+[User](docs/User.md)
 
 ## Hooks
 
-[useUser](docs/useUser.md)useUser
+[useUser](docs/useUser.md)
 
