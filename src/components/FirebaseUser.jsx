@@ -13,12 +13,7 @@ export default function FirebaseUser({ children }) {
             console.log("Firebase auth state changed:", u);
             if(u) {
                 console.log("Firebase user logged in:", u);
-                user.login({
-                    id: u.uid,
-                    name: u.displayName || "Anonymous",
-                    email: u.email || "No email",
-                    role: "USER"
-                });
+                user.login(firebaseAuthState.getCurrentUser());
             } else {
                 console.log("Firebase user logged out");
                 user.logout();

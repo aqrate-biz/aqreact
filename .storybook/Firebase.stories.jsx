@@ -112,7 +112,7 @@ function ListenToFirestore() {
 
     useEffect(() => {
         const unsubscribe = listenData();
-        return unsubscribe
+        return () => unsubscribe() //executed on component unmount
     }, []);
     const listenData = () => {
         const unsubscribe = firestore.listen('testCollection', 'test', (doc) => {
