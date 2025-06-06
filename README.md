@@ -29,13 +29,30 @@ import { NomeComponente } from 'aqreact';
 ### License
 MIT license, Copyright (c) Aqrate. For more information see `LICENSE`.
 
-## Components
+## 📦 Components
 
-[User](docs/User.md)
-[Firebase](docs/Firebase.md)
-[FirebaseUser](docs/FirebaseUser.md)
+- [API](docs/API.md)
+- [App](docs/App.md)
+- [Browser](docs/Browser.md)
+- [Firebase](docs/Firebase.md)
+- [FirebaseUser](docs/FirebaseUser.md)
+- [Log](docs/Log.md)
+- [User](docs/User.md)
 
-## Hooks
+## 🪝 Hooks
 
-[useUser](docs/useUser.md)
+- [useAPI](docs/useAPI.md)
+- [useApp](docs/useApp.md)
+- [useDelayedValue](docs/useDelayedValue.md)
+- [useFirebase](docs/useFirebase.md)
+- [useFirebaseAnonymousAuth](docs/useFirebaseAnonymousAuth.md)
+- [useFirebaseAuth](docs/useFirebaseAuth.md)
+- [useFirebaseAuthState](docs/useFirebaseAuthState.md)
+- [useFirebaseGoogleAuth](docs/useFirebaseGoogleAuth.md)
+- [useFirebaseStorage](docs/useFirebaseStorage.md)
+- [useFirestore](docs/useFirestore.md)
+- [useLocale](docs/useLocale.md)
+- [useLog](docs/useLog.md)
+- [useUser](docs/useUser.md)
+
 

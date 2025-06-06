@@ -2,7 +2,11 @@
 
 L’hook `useUser` permette di accedere facilmente al contesto utente fornito dal componente `User`. Restituisce un oggetto che include lo stato dell’utente e vari metodi per gestire autenticazione, ruoli e aggiornamento dei dati utente.
 
-### Cosa restituisce
+### Props/Parametri
+
+L’hook `useUser` non accetta parametri direttamente. Utilizza il contesto fornito dal componente `User` più vicino nell’albero dei componenti.
+
+### Funzionalità
 
 L’oggetto restituito da `useUser` contiene:
 
