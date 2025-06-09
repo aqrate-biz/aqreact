@@ -1,5 +1,5 @@
 import React from "react";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, reauthenticateWithCredential } from "firebase/auth";
 
 import { useFirebaseAuth } from "./useFirebaseAuth";
 
@@ -7,7 +7,11 @@ function check(auth) {
     if (!auth) {
         throw new Error("Firebase auth is not initialized. Please ensure Firebase app is initialized.");
     }
-
+}
+function checkUser(user) {
+    if (!user) {
+        throw new Error("No user is currently signed in.");
+    }
 }
 
 export function useFirebaseAuthState() {
@@ -22,8 +26,7 @@ export function useFirebaseAuthState() {
             check(auth);
             const user = auth.currentUser;
             if (!user) {
-                console.log("No user is currently signed in.");
-                return null;
+                return {}
             }
             return {
                 uid: user.uid,
@@ -36,14 +39,25 @@ export function useFirebaseAuthState() {
         getToken: async () => {
             check(auth);
             const user = auth.currentUser;
-            if (!user) {
-                throw new Error("No user is currently signed in.");
-            }
+            checkUser(user);
             try {
                 const token = await user.getIdToken();
                 return token;
             } catch (error) {
                 console.error("Error getting token:", error);
+                throw error;
+            }
+        },
+        reauthenticate: async (credential) => {
+            check(auth);
+            const user = auth.currentUser;
+            checkUser(user);
+            try {
+                await reauthenticateWithCredential(user, credential);
+                console.log("User reauthenticated successfully.");
+                return true;
+            } catch (error) {
+                console.error("Error reauthenticating user:", error);
                 throw error;
             }
         }
