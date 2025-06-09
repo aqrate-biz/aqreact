@@ -1,6 +1,6 @@
 import { getStorage, ref, uploadBytes, uploadString, getBytes, getDownloadURL, uploadBytesResumable, deleteObject } from 'firebase/storage';
 
-import { useFirebase } from './useFirebase.jsx';
+import { useFirebase } from './useFirebase';
 
 function check(storage) {
     if (!storage) {

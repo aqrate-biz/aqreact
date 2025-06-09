@@ -1,6 +1,6 @@
 import React from 'react';
-import App from '../src/components/App.jsx';
-import { useApp } from '../src/hooks/useApp.jsx';
+import App from '../src/components/App';
+import { useApp } from '../src/hooks/useApp';
 
 export default {
   component: App,

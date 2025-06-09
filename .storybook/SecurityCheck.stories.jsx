@@ -1,7 +1,7 @@
 import React from 'react';
-import SecurityCheck from '../src/components/SecurityCheck.jsx';
-import { useUser } from '../src/hooks/useUser.jsx';
-import User from '../src/components/User.jsx';
+import SecurityCheck from '../src/components/SecurityCheck';
+import { useUser } from '../src/hooks/useUser';
+import User from '../src/components/User';
 
 
 export default {

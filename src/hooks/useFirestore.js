@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getFirestore, doc, setDoc, getDoc, onSnapshot } from 'firebase/firestore';
 
-import { useFirebase } from './useFirebase.jsx';
+import { useFirebase } from './useFirebase';
 
 export function useFirestore() {
     const { app } = useFirebase()

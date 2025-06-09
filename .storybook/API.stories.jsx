@@ -1,6 +1,6 @@
 import React from 'react';
-import API from '../src/components/API.jsx';
-import { useAPI } from '../src/hooks/useAPI.jsx';
+import API from '../src/components/API';
+import { useAPI } from '../src/hooks/useAPI';
 
 export default {
   component: API,

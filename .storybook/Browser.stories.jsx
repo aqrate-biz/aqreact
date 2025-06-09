@@ -1,6 +1,6 @@
 import React from 'react';
-import Browser from '../src/components/Browser.jsx';
-import { useLocale } from '../src/hooks/useLocale.jsx';
+import Browser from '../src/components/Browser';
+import { useLocale } from '../src/hooks/useLocale';
 
 export default {
   component: Browser,

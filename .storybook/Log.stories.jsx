@@ -1,6 +1,6 @@
 import React from 'react';
-import Log from '../src/components/Log.jsx';
-import { useLog } from '../src/hooks/useLog.jsx';
+import Log from '../src/components/Log';
+import { useLog } from '../src/hooks/useLog';
 
 export default {
   component: Log,

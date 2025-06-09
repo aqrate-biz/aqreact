@@ -1,7 +1,7 @@
 import React from "react";
 
-import { useUser } from "../hooks/useUser.jsx";
-import SecurityRule from "../lib/SecurityRule.js";
+import { useUser } from "../hooks/useUser";
+import SecurityRule from "../lib/SecurityRule";
 
 export default function SecurityCheck({ 
     children,

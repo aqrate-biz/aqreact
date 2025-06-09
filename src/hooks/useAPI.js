@@ -1,7 +1,7 @@
 import React from "react";
 
 import { useAPIContext } from "../components/API.jsx";
-import { useFirebaseAuthState } from "./useFirebaseAuthState.jsx";
+import { useFirebaseAuthState } from "./useFirebaseAuthState";
 
 function checkResponse(response) {
     if (!response.ok) {

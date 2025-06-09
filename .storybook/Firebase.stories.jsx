@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Firebase from '../src/components/Firebase.jsx';
-import User from '../src/components/User.jsx';
-import FirebaseUser from '../src/components/FirebaseUser.jsx';
-import { useFirebaseAnonymousAuth } from '../src/hooks/useFirebaseAnonymousAuth.jsx';
-import { useFirestore } from '../src/hooks/useFirestore.jsx';
+import Firebase from '../src/components/Firebase';
+import User from '../src/components/User';
+import FirebaseUser from '../src/components/FirebaseUser';
+import { useFirebaseAnonymousAuth } from '../src/hooks/useFirebaseAnonymousAuth';
+import { useFirestore } from '../src/hooks/useFirestore';
 
 export default {
   component: Firebase,

@@ -1,6 +1,6 @@
 import React from 'react';
-import User from '../src/components/User.jsx';
-import { useUser } from '../src/hooks/useUser.jsx';
+import User from '../src/components/User';
+import { useUser } from '../src/hooks/useUser';
 
 
 export default {

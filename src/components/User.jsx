@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useState } from "react";
 
-import initSchema from "../lib/initSchema.js";
+import initSchema from "../lib/initSchema";
 
 const UserContext = createContext({
     user: null,
