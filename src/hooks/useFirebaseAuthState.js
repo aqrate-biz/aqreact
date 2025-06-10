@@ -2,6 +2,7 @@ import React from "react";
 import { onAuthStateChanged, reauthenticateWithCredential } from "firebase/auth";
 
 import { useFirebaseAuth } from "./useFirebaseAuth";
+import { useLogger } from "./useLogger";
 
 function check(auth) {
     if (!auth) {
@@ -16,15 +17,18 @@ function checkUser(user) {
 
 export function useFirebaseAuthState() {
     const auth = useFirebaseAuth();
+    const logger = useLogger('FirebaseAuthState');
     
     return {
         setStateChangeCallback: (callback) => {
             check(auth);
+            logger.info("Setting auth state change callback");
             onAuthStateChanged(auth, callback);
         },
         getCurrentUser: () => {
             check(auth);
             const user = auth.currentUser;
+            logger.debug("Current user:", user);
             if (!user) {
                 return {}
             }
@@ -42,9 +46,10 @@ export function useFirebaseAuthState() {
             checkUser(user);
             try {
                 const token = await user.getIdToken();
+                logger.debug("User token:", token);
                 return token;
             } catch (error) {
-                console.error("Error getting token:", error);
+                logger.error("Error getting token:", error);
                 throw error;
             }
         },
@@ -54,10 +59,10 @@ export function useFirebaseAuthState() {
             checkUser(user);
             try {
                 await reauthenticateWithCredential(user, credential);
-                console.log("User reauthenticated successfully.");
+                logger.debug("User reauthenticated successfully.");
                 return true;
             } catch (error) {
-                console.error("Error reauthenticating user:", error);
+                logger.error("Error reauthenticating user:", error);
                 throw error;
             }
         }

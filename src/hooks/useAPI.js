@@ -2,6 +2,7 @@ import React from "react";
 
 import { useAPIContext } from "../components/API.jsx";
 import { useFirebaseAuthState } from "./useFirebaseAuthState";
+import { useLogger } from "./useLogger.js";
 
 function checkResponse(response) {
     if (!response.ok) {
@@ -64,7 +65,7 @@ function getHeaders(options, data, authMode) {
 
 
 export function useAPI() {
-
+    const logger = useLogger('useAPI');
     const { baseUrl, authMode } = useAPIContext();
     if (!baseUrl) {
         throw new Error("useAPI must be used within an APIProvider with a baseUrl");
@@ -73,64 +74,77 @@ export function useAPI() {
     
     const calls = {
         call: async (endpoint, data, options = {}) => {
+            logger.debug("API call:", endpoint, data, options);
             const response = await fetch(getUrl(baseUrl, endpoint), {
                 method: options.method || "GET",
                 headers: getHeaders(options, data, authMode),
                 body: getBody(data)
             });
+            logger.debug("API response:", response);
             checkResponse(response);
             return response.json();
         },
         get: async (endpoint, data, options = {}) => {
-            //TODO data to query params
+            logger.debug("API GET call:", endpoint, data, options);
             const response = await fetch(getUrl(baseUrl, endpoint, data), {
                 method: "GET",
                 headers: getHeaders(options, null, authMode),
             });
+            logger.debug("API GET response:", response);
             checkResponse(response);
             return response.json();
         },
         post: async (endpoint, data, options = {}) => {
+            logger.debug("API POST call:", endpoint, data, options);
             const response = await fetch(getUrl(baseUrl, endpoint), {
                 method: "POST",
                 headers: getHeaders(options, data, authMode),
                 body: getBody(data)
             });
+            logger.debug("API POST response:", response);
             checkResponse(response);
             return response.json();
         },
         put: async (endpoint, data, options = {}) => {
+            logger.debug("API PUT call:", endpoint, data, options);
             const response = await fetch(getUrl(baseUrl, endpoint), {
                 method: "PUT",
                 headers: getHeaders(options, data, authMode),
                 body: getBody(data)
             });
+            logger.debug("API PUT response:", response);
             checkResponse(response);
             return response.json();
         },
         delete: async (endpoint, data, options = {}) => {
+            logger.debug("API DELETE call:", endpoint, data, options);
             const response = await fetch(getUrl(baseUrl, endpoint), {
                 method: "DELETE",
                 headers: getHeaders(options, null, authMode),
             });
+            logger.debug("API DELETE response:", response);
             checkResponse(response);
             return response.json();
         },
         patch: async (endpoint, data, options = {}) => {
+            logger.debug("API PATCH call:", endpoint, data, options);
             const response = await fetch(getUrl(baseUrl, endpoint), {
                 method: "PATCH",
                 headers: getHeaders(options, data, authMode),
                 body: getBody(data),
                 ...options,
             });
+            logger.debug("API PATCH response:", response);
             checkResponse(response);
             return response.json();
         },
         head: async (endpoint, data, options = {}) => {
+            logger.debug("API HEAD call:", endpoint, data, options);
             const response = await fetch(getUrl(baseUrl, endpoint), {
                 method: "HEAD",
                 headers: getHeaders(options, null, authMode),
             });
+            logger.debug("API HEAD response:", response);
             checkResponse(response);
             return response.headers;
         }

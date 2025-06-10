@@ -7,6 +7,7 @@ import {
 
 import { useFirebaseAuth } from "./useFirebaseAuth";
 import { useFirebaseAuthState } from "./useFirebaseAuthState";
+import { useLogger } from "./useLogger";
 
 function checkUser(user) {
     if (!user) {
@@ -18,6 +19,7 @@ function checkUser(user) {
 export function useFirebaseUser() {
     const auth = useFirebaseAuth();
     const authState = useFirebaseAuthState();
+    const logger = useLogger('FirebaseUser');
 
     if (!auth) {
         throw new Error("useFirebaseUser must be used within a FirebaseProvider");
@@ -31,6 +33,7 @@ export function useFirebaseUser() {
         getProvidersData: () => {
             const user = authState.getCurrentUser()
             checkUser(user);
+            logger.debug("Providers data for user:", user);
             return user.providerData.reduce((acc, provider) => {
                 acc[provider.providerId] = provider;
                 return acc;
@@ -44,10 +47,10 @@ export function useFirebaseUser() {
                     displayName: profile.displayName || user.displayName,
                     photoURL: profile.photoURL || user.photoURL
                 }).then(() => {
-                    console.log("Profile updated successfully.");
+                    logger.info("Profile updated successfully.", profile);
                     resolve(true)
                 }).catch((error) => {
-                    console.error("Error updating profile:", error);
+                    logger.error("Error updating profile:", error);
                     reject(error);
                 });
             })
@@ -58,10 +61,10 @@ export function useFirebaseUser() {
                 const user = authState.getCurrentUser();
                 checkUser(user);
                 return deleteUser(user).then(() => {
-                    console.log("User deleted successfully.");
+                    logger.info("User deleted successfully.", user);
                     resolve(true);
                 }).catch((error) => {
-                    console.error("Error deleting user:", error);
+                    logger.error("Error deleting user:", error);
                     reject(error);
                 });
             })

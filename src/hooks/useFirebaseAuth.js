@@ -1,5 +1,5 @@
 import React from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 
 import { useFirebaseContext } from "../components/Firebase.jsx";
 

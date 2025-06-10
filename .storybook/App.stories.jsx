@@ -1,6 +1,7 @@
 import React from 'react';
 import App from '../src/components/App';
 import { useApp } from '../src/hooks/useApp';
+import Logger from '../src/components/Logger.jsx';
 
 export default {
   component: App,
@@ -21,11 +22,13 @@ function ShowAppConfig() {
 
 export const AppConfig = {
   render: (args) => (
-    <App config={{
-        appName: 'My App',
-        appVersion: '1.0.0',
-        apiBaseUrl: 'https://api.example.com'}}>
-            <ShowAppConfig />
-    </App>    
+    <Logger>
+      <App config={{
+          appName: 'My App',
+          appVersion: '1.0.0',
+          apiBaseUrl: 'https://api.example.com'}}>
+              <ShowAppConfig />
+      </App>  
+    </Logger>  
   ),
 };

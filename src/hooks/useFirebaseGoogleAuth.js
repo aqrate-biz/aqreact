@@ -1,9 +1,11 @@
 import React from "react";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useFirebaseAuth } from "./useFirebaseAuth";
+import { useLogger } from "./useLogger";
 
 export function useFirebaseGoogleAuth(scopes, language) {
     const auth = useFirebaseAuth();
+    const logger = useLogger('FirebaseGoogleAuth');
     if (!auth) {
         throw new Error("Firebase auth is not initialized. Please ensure Firebase app is initialized.");
     }
@@ -24,11 +26,14 @@ export function useFirebaseGoogleAuth(scopes, language) {
                         // This gives you a Google Access Token. You can use it to access the Google API.
                         const credential = GoogleAuthProvider.credentialFromResult(result);
                         const token = credential.accessToken;
+                        logger.debug("Google credential", credential);
                         // The signed-in user info.
                         const user = result.user;
+                        logger.info("Google user signed in successfully:", user);
                         resolve(user);
                     })
                     .catch((error) => {
+                        logger.error("Error signing in with Google:", error);
                         // Handle Errors here.
                         const errorCode = error.code;
                         const errorMessage = error.message;
@@ -43,10 +48,10 @@ export function useFirebaseGoogleAuth(scopes, language) {
         signOut: async () => {
             return new Promise((resolve, reject) => {
                 auth.signOut().then(() => {
-                    console.log("User signed out successfully.");
+                    logger.info("User signed out successfully.");
                     resolve(true);
                 }).catch((error) => {
-                    console.error("Error signing out:", error);
+                    logger.error("Error signing out:", error);
                     reject(error);
                 });
             });

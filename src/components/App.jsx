@@ -1,20 +1,25 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React from "react";
 
 import Browser from "./Browser.jsx";
 import API from "./API.jsx";
-import Log from "./Log.jsx";
+import Logger from "./Logger.jsx";
 import Firebase from "./Firebase.jsx";
 import FirebaseUser from "./FirebaseUser.jsx";
 import User from "./User.jsx";
+import { useLogger } from "../hooks/useLogger.js";
 
-const AppContext = createContext({
+const AppContext = React.createContext({
     appConfig: null,
     setConfig: () => {}
 });
 
 export default function App({ children, config }) {
+
+    const logger = useLogger('App');
+
+    logger.info("App component initialized with config:", config)
     
-    const [appConfig, setAppConfig] = useState(config || {});
+    const [appConfig, setAppConfig] = React.useState(config || {});
     
     if(config.withFirebase && config.firebase) {
         children = (
@@ -35,9 +40,9 @@ export default function App({ children, config }) {
     }
     if(config.withLog && config.log) {
         children = (
-            <Log {...config.log}>
+            <Logger {...config.log}>
                 {children}
-            </Log>
+            </Logger>
         );
     }
     if(config.withUser && config.userSchema) {
@@ -60,7 +65,7 @@ export default function App({ children, config }) {
     const provider = {
         appConfig,
         setAppConfig: (newConfig) => {
-            console.log("AppProvider setting new config:", newConfig);
+            logger.info("AppProvider setting new config:", newConfig);
             setAppConfig(newConfig);
         }
     }
@@ -75,5 +80,5 @@ export default function App({ children, config }) {
 }
 
 export function useAppContext() {
-    return useContext(AppContext);
+    return React.useContext(AppContext);
 }

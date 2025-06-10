@@ -4,12 +4,13 @@ import User from '../src/components/User';
 import FirebaseUser from '../src/components/FirebaseUser';
 import { useFirebaseAnonymousAuth } from '../src/hooks/useFirebaseAnonymousAuth';
 import { useFirestore } from '../src/hooks/useFirestore';
+import { useFirebase } from '../src/hooks/useFirebase';
 
 export default {
   component: Firebase,
   subcomponents: { User, FirebaseUser }
 };
-console.log(import.meta.env);
+
 const config = {
     apiKey: import.meta.env.STORYBOOK_FIREBASE_APIKEY,
     authDomain: import.meta.env.STORYBOOK_FIREBASE_AUTHDOMAIN,
@@ -19,12 +20,19 @@ const config = {
     appId: import.meta.env.STORYBOOK_FIREBASE_APPID
 }
 
+function FBApp(){
+    const firebaseApp = useFirebase()
+    return (
+        <div>{firebaseApp.app._name}</div>
+    )
+}
+
 
 export const FirebaseApp = {
   render: (args) => (
     <div>Firebase App Initialized:
         <Firebase config={config}>
-        
+            <FBApp />
         </Firebase>
     </div>
   ),

@@ -1,24 +1,29 @@
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React from "react";
 
-const LogContext = createContext({
+const LoggerContext = React.createContext({
     entries: [],
     setEntries: () => {},
     addEntry: () => {},
-    clearEntries: () => {}
+    clearEntries: () => {},
+    log: () => {},
+    debug: () => {},
+    info: () => {},
+    warn: () => {},
+    error: () => {}
 });
 
-export default function Log({ 
+export default function Logger({ 
     children, 
     loggers = ['console'], 
     levels = ["error", "warn", "info", "debug"], 
     catchAllErrors = true,
     maxEntries = 1000}) {
     
-    const [entries, setEntries] = useState();
+    const [entries, setEntries] = React.useState(null);
 
     if(catchAllErrors){
-        useEffect(() => {
+        React.useEffect(() => {
             const handleError = (event) => {
                 provider.log('error', 'Error', {
                     message: event.message,
@@ -55,6 +60,7 @@ export default function Log({
                 newEntries = newEntries.slice(-maxEntries); // Keep only the last maxEntries
             }
             setEntries(newEntries);
+            return newEntries;
         },
         addEntry: (entry) => {
             setEntries((prevEntries) => {
@@ -69,6 +75,7 @@ export default function Log({
         },
         clearEntries: () => {
             setEntries([]);
+            return [];
         },
         log: (level, message, ...args) => {
             if(levels.includes(level)){
@@ -78,6 +85,7 @@ export default function Log({
                     timestamp: new Date().toISOString(),
                     args: args.length > 0 ? args : undefined
                 };
+                
                 if(loggers.includes('console')) {
                     console[level](message, ...args);
                 }
@@ -102,23 +110,25 @@ export default function Log({
     }
 
     return (
-        <LogContext.Provider value={provider}>
-            {children}
-            <div className="log-entries">
-                {entries && entries.map((entry, index) => (
-                    <div key={index} className={`log-entry log-${entry.level}`}>
-                        <span className="log-timestamp">{entry.timestamp}</span>
-                        <span className="log-message">{entry.message}</span>
-                        {entry.args && entry.args.length > 0 && (
-                            <span className="log-args">{JSON.stringify(entry.args)}</span>
-                        )}
-                    </div>
-                ))}
-            </div>
-        </LogContext.Provider>
+        <div className="aqreact-log-provider" data-log-loggers={loggers.join(', ')} data-log-levels={levels.join(', ')} data-max-entries={maxEntries}>
+            <LoggerContext.Provider value={provider}>
+                {children}
+                <div className="log-entries">
+                    {entries && entries.map((entry, index) => (
+                        <div key={index} className={`log-entry log-${entry.level}`}>
+                            <span className="log-timestamp">{entry.timestamp}</span>
+                            <span className="log-message">{entry.message}</span>
+                            {entry.args && entry.args.length > 0 && (
+                                <span className="log-args">{JSON.stringify(entry.args)}</span>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            </LoggerContext.Provider>
+        </div>
     );
 }
 
-export function useLogContext() {
-    return useContext(LogContext);
+export function useLoggerContext() {
+    return React.useContext(LoggerContext);
 }

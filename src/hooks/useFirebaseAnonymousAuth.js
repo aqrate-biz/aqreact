@@ -1,9 +1,11 @@
 import React from "react";
 import { signInAnonymously } from "firebase/auth";
 import { useFirebaseAuth } from "./useFirebaseAuth";
+import { useLogger } from "./useLogger";
 
 export function useFirebaseAnonymousAuth() {
     const auth = useFirebaseAuth();
+    const logger = useLogger('FirebaseAnonymousAuth');
     if (!auth) {
         throw new Error("Firebase auth is not initialized. Please ensure Firebase app is initialized.");
     }
@@ -14,14 +16,14 @@ export function useFirebaseAnonymousAuth() {
                     .then((userCredential) => {
                         // Signed in
                         const user = userCredential.user;
-                        console.log("Anonymous user signed in successfully:", user);
+                        logger.info("Anonymous user signed in successfully:", user);
                         resolve(user);
                     })
                     .catch((error) => {
                         // Handle Errors here.
                         const errorCode = error.code;
                         const errorMessage = error.message;
-                        console.error("Error signing in anonymously:", errorCode, errorMessage);
+                        logger.error("Error signing in anonymously:", errorCode, errorMessage);
                         reject(error);
                     });
             });
@@ -29,10 +31,10 @@ export function useFirebaseAnonymousAuth() {
         signOut: async () => {
             return new Promise((resolve, reject) => {
                 auth.signOut().then(() => {
-                    console.log("User signed out successfully.");
+                    logger.info("User signed out successfully.");
                     resolve(true);
                 }).catch((error) => {
-                    console.error("Error signing out:", error);
+                    logger.error("Error signing out:", error);
                     reject(error);
                 });
             });

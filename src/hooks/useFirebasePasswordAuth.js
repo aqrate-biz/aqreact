@@ -9,6 +9,7 @@ import {
 } from "firebase/auth";
 import { useFirebaseAuth } from "./useFirebaseAuth";
 import { useFirebaseAuthState } from "./useFirebaseAuthState";
+import { useLogger } from "./useLogger";
 
 function checkUser(user) {
     if (!user) {
@@ -18,6 +19,7 @@ function checkUser(user) {
 
 export function useFirebasePasswordAuth(scopes, language) {
     const auth = useFirebaseAuth();
+    const logger = useLogger('FirebasePasswordAuth');
     if (!auth) {
         throw new Error("Firebase auth is not initialized. Please ensure Firebase app is initialized.");
     }
@@ -36,9 +38,11 @@ export function useFirebasePasswordAuth(scopes, language) {
                 try {
                     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                     // Signed in
+                    logger.info("User signed up successfully:", userCredential);
                     const user = userCredential.user;
                     resolve(user)
                 } catch (error) {
+                    logger.error("Error signing up:", error);
                     // Handle Errors here.
                     const errorCode = error.code;
                     const errorMessage = error.message;
@@ -50,9 +54,11 @@ export function useFirebasePasswordAuth(scopes, language) {
             return new Promise(async (resolve, reject) => {
                 signInWithEmailAndPassword(auth, email, password)
                     .then((userCredential) => {
+                        logger.info("User signed in successfully:", userCredential);
                         resolve(userCredential.user);
                     })
                     .catch((error) => {
+                        logger.error("Error signing in:", error);
                         reject(error)
                     });
                 })
@@ -60,10 +66,10 @@ export function useFirebasePasswordAuth(scopes, language) {
         signOut: async () => {
             return new Promise((resolve, reject) => {
                 auth.signOut().then(() => {
-                    console.log("User signed out successfully.");
+                    logger.info("User signed out successfully.");
                     resolve(true);
                 }).catch((error) => {
-                    console.error("Error signing out:", error);
+                    logger.error("Error signing out:", error);
                     reject(error);
                 });
             });
@@ -76,10 +82,10 @@ export function useFirebasePasswordAuth(scopes, language) {
                     auth.languageCode = language;
                 }
                 return sendEmailVerification(user).then(() => {
-                    console.log("Email verification sent successfully.");
+                    logger.debug("Email verification sent successfully.");
                     resolve(true);
                 }).catch((error) => {
-                    console.error("Error sending email verification:", error);
+                    logger.error("Error sending email verification:", error);
                     reject(error);
                 });
             })
@@ -93,10 +99,10 @@ export function useFirebasePasswordAuth(scopes, language) {
                     reject(new Error("Password does not meet the security requirements."));
                 }
                 return updatePassword(user, newPassword).then(() => {
-                    console.log("Password updated successfully.");
+                    logger.info("Password updated successfully.");
                     resolve(true);
                 }).catch((error) => {
-                    console.error("Error updating password:", error);
+                    logger.error("Error updating password:", error);
                     reject(error);
                 });
             })
@@ -106,10 +112,10 @@ export function useFirebasePasswordAuth(scopes, language) {
                 const user = authState.getCurrentUser();
                 checkUser(user);
                 return sendPasswordResetEmail(auth, user.email).then(() => {
-                    console.log("Password reset email sent successfully.");
+                    logger.debug("Password reset email sent successfully.");
                     resolve(true);
                 }).catch((error) => {
-                    console.error("Error sending password reset email:", error);
+                    logger.error("Error sending password reset email:", error);
                     reject(error);
                 });
             })

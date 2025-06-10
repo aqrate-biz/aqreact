@@ -1,9 +1,9 @@
 
-import React, { createContext, useContext, useState } from "react";
+import React from "react";
 
 import initSchema from "../lib/initSchema";
 
-const UserContext = createContext({
+const UserContext = React.createContext({
     user: null,
     setUser: () => {}
 });
@@ -18,7 +18,7 @@ export default function User({ children, userSchema }) {
         }
     }
     const initUser = initSchema(userSchema);
-    const [user, setUser] = useState(initUser);
+    const [user, setUser] = React.useState(initUser);
 
     const provider = {
         user,
@@ -32,11 +32,11 @@ export default function User({ children, userSchema }) {
             return user.role === role;
         },
         login: (userData) => {
-            console.log("UserProvider logging in user:", userData);
+            logger.info("UserProvider logging in user:", userData);
             setUser(userData);
         },
         logout: () => {
-            console.log("UserProvider logging out user");
+            logger.info("UserProvider logging out user");
             setUser(null);
         },
         getUserSchema: () => {
@@ -54,5 +54,5 @@ export default function User({ children, userSchema }) {
 }
 
 export function useUserContext() {
-    return useContext(UserContext);
+    return React.useContext(UserContext);
 }

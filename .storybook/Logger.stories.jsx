@@ -1,16 +1,16 @@
 import React from 'react';
-import Log from '../src/components/Log';
-import { useLog } from '../src/hooks/useLog';
+import Logger from '../src/components/Logger';
+import { useLogger } from '../src/hooks/useLogger';
 
 export default {
-  component: Log,
+  component: Logger,
   subcomponents: {  }
 };
 
 
 
 function AddLogs() {
-  const log = useLog();
+  const log = useLogger('StorybookLogger');
   const addLogs = () => {
     log.log('debug', 'This is a log message', { additional: 'data' }, 'test');
     log.warn('This is a warning message');
@@ -24,8 +24,8 @@ function AddLogs() {
 
 export const LogEntries = {
   render: (args) => (
-    <Log loggers={['console','log']} maxEntries={10}>
+    <Logger loggers={['console','log']} maxEntries={10}>
         <AddLogs />
-    </Log>    
+    </Logger>    
   ),
 };

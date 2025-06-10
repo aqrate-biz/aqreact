@@ -2,6 +2,7 @@ import React from 'react';
 import SecurityCheck from '../src/components/SecurityCheck';
 import { useUser } from '../src/hooks/useUser';
 import User from '../src/components/User';
+import Logger from '../src/components/Logger.jsx';
 
 
 export default {
@@ -49,12 +50,14 @@ export const AuthUser = {
         role: { type: 'string' }}}>
         <LoginUser />
         <PrintUser />
-        <SecurityCheck alternativeComponent={DeniedAccess()} rules={
-            [{ field: 'role', value: 'USER' }]
-            }>
-            <h1>Security Check</h1>
-            <p>This is a secure area. Only authenticated users can see this.</p>
-        </SecurityCheck>
+        <Logger>
+          <SecurityCheck alternativeComponent={DeniedAccess()} rules={
+              [{ field: 'role', value: 'USER' }]
+              }>
+              <h1>Security Check</h1>
+              <p>This is a secure area. Only authenticated users can see this.</p>
+          </SecurityCheck>
+        </Logger>
     </User>
   ),
 };

@@ -1,16 +1,21 @@
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React from "react";
 
-const BrowserContext = createContext({
+import { useLogger } from "../hooks/useLogger.js";
+
+const BrowserContext = React.createContext({
     locale: null,
     setLocale: () => {}
 });
 
 export default function Browser({ children }) {
+
+    const logger = useLogger('Browser');
+    logger.info("Browser component initialized");
     
-    const [locale, setLocale] = useState();
+    const [locale, setLocale] = React.useState();
     
-    useEffect(() => {
+    React.useEffect(() => {
         let locale = null;
         if(window && window.navigator) {
             // Check if the browser supports the locale API
@@ -19,16 +24,17 @@ export default function Browser({ children }) {
             } else if (window.navigator.language) {
                 locale = window.navigator.language;
             } else {
-                console.warn('Browser does not support locale detection');
+                logger.warn('Browser does not support locale detection');
             }
         }
+        logger.info("Browser detected locale:", locale);
         setLocale(locale);
     }, []);
 
     const provider = {
         locale,
         setLocale: (newLocale) => {
-            console.log("BrowserProvider setting new locale:", newLocale);
+            logger.info("BrowserProvider setting new locale:", newLocale);
             setLocale(newLocale);
         }
     }
@@ -43,5 +49,5 @@ export default function Browser({ children }) {
 }
 
 export function useBrowserContext() {
-    return useContext(BrowserContext);
+    return React.useContext(BrowserContext);
 }

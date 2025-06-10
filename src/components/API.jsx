@@ -1,7 +1,9 @@
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React from "react";
 
-const APIContext = createContext({
+import { useLogger } from "../hooks/useLogger.js";
+
+const APIContext = React.createContext({
     baseUrl: null,
     setBaseUrl: () => {},
     authMode: null,
@@ -10,17 +12,18 @@ const APIContext = createContext({
 
 export default function API({ children, baseUrl, authMode }) {
     
-    
+    const logger = useLogger('API');
+    logger.info("API component initialized:", baseUrl, authMode);
 
     const provider = {
         baseUrl,
         setBaseUrl: (newBaseUrl) => {
-            console.log("APIProvider setting new base URL:", newBaseUrl);
+            logger.info("APIProvider setting new base URL:", newBaseUrl);
             baseUrl = newBaseUrl;
         },
         authMode,
         setAuthMode: (newAuthMode) => {
-            console.log("APIProvider setting new auth mode:", newAuthMode);
+            logger.info("APIProvider setting new auth mode:", newAuthMode);
             authMode = newAuthMode;
         },
     }
@@ -35,5 +38,5 @@ export default function API({ children, baseUrl, authMode }) {
 }
 
 export function useAPIContext() {
-    return useContext(APIContext);
+    return React.useContext(APIContext);
 }

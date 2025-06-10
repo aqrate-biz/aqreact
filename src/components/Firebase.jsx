@@ -1,8 +1,11 @@
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React from "react";
+
+import { useLogger } from "../hooks/useLogger.js";
+
 import { initializeApp } from "firebase/app";
 
-const FirebaseContext = createContext({
+const FirebaseContext = React.createContext({
     app: null,
     setApp: () => {}
 });
@@ -12,18 +15,18 @@ export default function Firebase({ children, config }) {
     if (!config || typeof config !== 'object') {
         throw new Error("Firebase config must be an object");
     }
-
+    const logger = useLogger('Firebase');
     
     const initializedApp = initializeApp(config);
-    console.log("FirebaseProvider initialized with app:", initializedApp);
+    logger.info("FirebaseProvider initialized with app:", initializedApp);
     
-    const [app, setApp] = useState(initializedApp);
+    const [app, setApp] = React.useState(initializedApp);
 
     
     const provider = {
         app,
         setApp: (newApp) => {
-            console.log("FirebaseProvider setting new app:", newApp);
+            logger.info("FirebaseProvider setting new app:", newApp);
             setApp(newApp);
         }
     }
@@ -38,5 +41,5 @@ export default function Firebase({ children, config }) {
 }
 
 export function useFirebaseContext() {
-    return useContext(FirebaseContext);
+    return React.useContext(FirebaseContext);
 }

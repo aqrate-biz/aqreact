@@ -1,21 +1,23 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import { useFirebaseAuthState } from "../hooks/useFirebaseAuthState";
 import { useUser } from "../hooks/useUser";
+import { useLogger } from "../hooks/useLogger.js";
 
 export default function FirebaseUser({ children }) {
 
     const firebaseAuthState = useFirebaseAuthState();
     const user = useUser();
+    const logger = useLogger('FirebaseUser');
 
-    useEffect(() => {
+    React.useEffect(() => {
         firebaseAuthState.setStateChangeCallback((u) => {
-            console.log("Firebase auth state changed:", u);
+            logger.info("Firebase auth state changed:", u);
             if(u) {
-                console.log("Firebase user logged in:", u);
+                logger.info("Firebase user logged in:", u);
                 user.login(firebaseAuthState.getCurrentUser());
             } else {
-                console.log("Firebase user logged out");
+                logger.info("Firebase user logged out");
                 user.logout();
             }
         })

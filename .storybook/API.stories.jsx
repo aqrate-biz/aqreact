@@ -1,6 +1,7 @@
 import React from 'react';
 import API from '../src/components/API';
 import { useAPI } from '../src/hooks/useAPI';
+import Logger from '../src/components/Logger';
 
 export default {
   component: API,
@@ -32,8 +33,10 @@ function CallApi({ method}) {
 
 export const Api = {
   render: (args) => (
-    <API baseUrl="https://randomuser.me/api/" authMode="">
-        <CallApi method="GET"></CallApi>
-    </API>
+    <Logger>
+      <API baseUrl="https://randomuser.me/api/" authMode="">
+          <CallApi method="GET"></CallApi>
+      </API>
+    </Logger>
   ),
 };

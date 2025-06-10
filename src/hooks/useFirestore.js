@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { getFirestore, doc, setDoc, getDoc, onSnapshot } from 'firebase/firestore';
 
 import { useFirebase } from './useFirebase';
+import { useLogger } from './useLogger';
 
 export function useFirestore() {
     const { app } = useFirebase()
+    const logger = useLogger('Firestore');
     const db = getFirestore(app);
     if (!db) {
         throw new Error("Firestore is not initialized. Please provide a valid Firebase configuration.");
@@ -16,14 +18,18 @@ export function useFirestore() {
                 throw new Error("Firestore is not initialized. Please ensure Firebase app is initialized.");
             }
             const ref = doc(db, collection, docId);
-            return await setDoc(ref, data)
+            const result = await setDoc(ref, data)
+            logger.debug(`Document set in collection ${collection} with ID ${docId}`, data);
+            return result;
         },
         update: async (collection, docId, data) => {
             if (!db) {
                 throw new Error("Firestore is not initialized. Please ensure Firebase app is initialized.");
             }
             const ref = doc(db, collection, docId);
-            return await setDoc(ref, data, { merge: true });
+            const result = await setDoc(ref, data, { merge: true });
+            logger.debug(`Document updated in collection ${collection} with ID ${docId}`, data);
+            return result;
         },
         get: async (collection, docId) => {
             if (!db) {
@@ -32,9 +38,11 @@ export function useFirestore() {
             const ref = doc(db, collection, docId);
             const docSnap = await getDoc(ref);
             if (docSnap.exists()) {
-                return docSnap.data();
+                const result = docSnap.data();
+                logger.debug(`Document retrieved from collection ${collection} with ID ${docId}`, result);
+                return result;
             } else {
-                console.log("No such document!");
+                logger.warn("No such document!");
                 return null;
             }
         },
@@ -47,9 +55,11 @@ export function useFirestore() {
             const ref = doc(db, collection, docId);
             const unsubscribe = onSnapshot(ref, (doc) => {
                 if (doc.exists()) {
-                    callback(doc.data());
+                    const result = doc.data();
+                    logger.debug(`Document snapshot received from collection ${collection} with ID ${docId}`, result);
+                    callback(result);
                 } else {
-                    console.log("No such document!");
+                    logger.warn("No such document!");
                     callback(null);
                 }
             });

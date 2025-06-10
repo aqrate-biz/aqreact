@@ -1,6 +1,7 @@
 import { getStorage, ref, uploadBytes, uploadString, getBytes, getDownloadURL, uploadBytesResumable, deleteObject } from 'firebase/storage';
 
 import { useFirebase } from './useFirebase';
+import { useLogger } from './useLogger';
 
 function check(storage) {
     if (!storage) {
@@ -10,6 +11,7 @@ function check(storage) {
 
 export function useFirebaseStorage(bucket) {
     const { app } = useFirebase();
+    const logger = useLogger('FirebaseStorage');
     const storage = getStorage(app, bucket ? 'gs://' + bucket : undefined);
     if (!storage) {
         throw new Error("Firebase storage is not initialized. Please provide a valid Firebase configuration.");
@@ -26,17 +28,17 @@ export function useFirebaseStorage(bucket) {
             try {
                 if(file instanceof Blob || file instanceof File) {
                     const snapshot = await uploadBytes(storageRef, file, metadata);
-                    console.log('Uploaded a blob or file!', snapshot);
+                    logger.info('Uploaded file', snapshot);
                     return snapshot;
                 } else if (typeof file === 'string') { //TODO tipo stringa
                     const snapshot = await uploadString(storageRef, file, 'raw', metadata);
-                    console.log('Uploaded a string!', snapshot);
+                    logger.info('Uploaded a string', snapshot);
                     return snapshot;
                 } else {
                     throw new Error("File must be a Blob, File, or string.");
                 }
             } catch (error) {
-                console.error("Error uploading file:", error);
+                logger.error("Error uploading file:", error);
                 throw error;
             }
         },
@@ -48,12 +50,13 @@ export function useFirebaseStorage(bucket) {
                 (snapshot) => {
                     // Observe state change events such as progress, pause, and resume
                     if (onStateChange) {
+                        logger.debug("Upload state changed:", snapshot);
                         onStateChange(snapshot);
                     }
                 }, 
                 (error) => {
                     // Handle unsuccessful uploads
-                    console.error("Error uploading file:", error);
+                    logger.error("Error uploading file:", error);
                     if (onError) {
                         onError(error);
                     }
@@ -61,7 +64,7 @@ export function useFirebaseStorage(bucket) {
                 () => {
                     // Handle successful uploads on complete
                     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                        console.log('File available at', downloadURL);
+                        logger.info('File available at', downloadURL);
                         if (onCompletion) {
                             onCompletion(downloadURL);
                         }
@@ -75,9 +78,9 @@ export function useFirebaseStorage(bucket) {
             const storageRef = ref(storage, path);
             try {
                 await deleteObject(storageRef);
-                console.log("File deleted successfully.");
+                logger.info("File deleted successfully.", path);
             } catch (error) {
-                console.error("Error deleting file:", error);
+                logger.error("Error deleting file:", error);
                 throw error;
             }
         },
@@ -86,9 +89,10 @@ export function useFirebaseStorage(bucket) {
             const storageRef = ref(storage, path);
             try {
                 const url = await getDownloadURL(storageRef);
+                logger.debug("Download URL:", url);
                 return url;
             } catch (error) {
-                console.error("Error getting download URL:", error);
+                logger.error("Error getting download URL:", error);
                 throw error;
             }
         },
@@ -97,9 +101,10 @@ export function useFirebaseStorage(bucket) {
             const storageRef = ref(storage, path);
             try {
                 const bytes = await getBytes(storageRef);
+                logger.info("File bytes retrieved successfully", bytes.length);
                 return bytes;
             } catch (error) {
-                console.error("Error getting file:", error);
+                logger.error("Error getting file:", error);
                 throw error;
             }
         }
