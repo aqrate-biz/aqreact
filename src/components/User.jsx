@@ -2,7 +2,7 @@
 import React from "react";
 
 import initSchema from "../lib/initSchema";
-import { logger } from "../hooks/useLogger.js";
+import { useLogger } from "../hooks/useLogger.js";
 
 const UserContext = React.createContext({
     user: null,
@@ -11,7 +11,7 @@ const UserContext = React.createContext({
 
 export default function User({ children, userSchema }) {
 
-    const logger = logger('User');
+    const logger = useLogger('User');
 
     if(!userSchema || typeof userSchema !== 'object') {
         userSchema = {
