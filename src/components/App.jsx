@@ -38,13 +38,7 @@ export default function App({ children, config }) {
             </API>
         );
     }
-    if(config.withLogger && config.logger) {
-        children = (
-            <Logger {...config.logger}>
-                {children}
-            </Logger>
-        );
-    }
+    
     if(config.withUser && config.userSchema) {
         children = (
             <User userSchema={config.userSchema}>
@@ -60,7 +54,13 @@ export default function App({ children, config }) {
             </Browser>
         );
     }
-    
+    if(config.withLogger && config.logger) {
+        children = (
+            <Logger {...config.logger}>
+                {children}
+            </Logger>
+        );
+    }
 
     const provider = {
         appConfig,

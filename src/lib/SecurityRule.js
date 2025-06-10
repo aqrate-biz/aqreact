@@ -29,7 +29,7 @@ class SecurityRule {
             return false;
         }
 
-        const userValue = user[this.field];
+        const userValue = this.field=='isAuthenticated' ? user.isAuthenticated() : user[this.field];
 
         switch (this.operator) {
             case 'equals':
