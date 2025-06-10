@@ -29,10 +29,11 @@ export default function Firebase({ children, config }) {
     }
 
     return (
-        <FirebaseContext.Provider value={provider}>
-            <div className="firebase-app">{app && app._config && app._config.name}</div>
-            {children}
-        </FirebaseContext.Provider>
+        <div className="aqreact-firebase-provider" data-app-name={app && app._config && app._config.name}>
+            <FirebaseContext.Provider value={provider}>
+                {children}
+            </FirebaseContext.Provider>
+        </div>
     );
 }
 

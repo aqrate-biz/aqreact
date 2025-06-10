@@ -22,16 +22,8 @@ export default function FirebaseUser({ children }) {
     }, []);
 
     return (
-        <>
-            <div className="firebase-user">
-                <h1>Firebase User</h1>
-                <p>User ID: {user.id}</p>
-                <p>Name: {user.name}</p>
-                <p>Email: {user.email}</p>
-                <p>Role: {user.role}</p>
-                <p>Authenticated: {user.isAuthenticated() ? "Yes" : "No"}</p>
-            </div>
+        <div className="aqreact-firebase-user" data-user-id={user.id}>
             {children}
-        </>
+        </div>
     );
 }

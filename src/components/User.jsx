@@ -45,9 +45,11 @@ export default function User({ children, userSchema }) {
     }
 
     return (
-        <UserContext.Provider value={provider}>
-            {children}
-        </UserContext.Provider>
+        <div className="aqreact-user-provider" data-user-id={user && user.id}>
+            <UserContext.Provider value={provider}>
+                {children}
+            </UserContext.Provider>
+        </div>
     );
 }
 

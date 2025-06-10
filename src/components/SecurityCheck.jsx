@@ -34,8 +34,10 @@ export default function SecurityCheck({
 
 
     return (
-        <User userSchema={user.getUserSchema()}>
-            { isAllowed ? children : alternativeComponent }
-        </User>
+        <div className="aqreact-security-check" data-is-allowed={isAllowed}>
+            <User userSchema={user.getUserSchema()}>
+                { isAllowed ? children : alternativeComponent }
+            </User>
+        </div>
     )
 }

@@ -34,9 +34,11 @@ export default function Browser({ children }) {
     }
 
     return (
-        <BrowserContext.Provider value={provider}>
-            {children}
-        </BrowserContext.Provider>
+        <div className="aqreact-browser-provider" data-locale={locale}>
+            <BrowserContext.Provider value={provider}>
+                {children}
+            </BrowserContext.Provider>
+        </div>
     );
 }
 

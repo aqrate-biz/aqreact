@@ -66,9 +66,11 @@ export default function App({ children, config }) {
     }
 
     return (
-        <AppContext.Provider value={provider}>
-            {children}
-        </AppContext.Provider>
+        <div className="aqreact-app-provider" data-app-name={appConfig.AppName} data-app-version={appConfig.AppVersion}>
+            <AppContext.Provider value={provider}>
+                {children}
+            </AppContext.Provider>
+        </div>
     );
 }
 
