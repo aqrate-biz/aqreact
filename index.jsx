@@ -13,6 +13,7 @@ export { default as FirebaseUser } from './src/components/FirebaseUser.jsx';
 export { useFirebaseAnonymousAuth } from './src/hooks/useFirebaseAnonymousAuth';
 export { useFirebaseAuth } from './src/hooks/useFirebaseAuth';
 export { useFirebaseAuthState } from './src/hooks/useFirebaseAuthState';
+export { useFirebaseGoogleAuth } from './src/hooks/useFirebaseGoogleAuth';
 export { default as Log } from './src/components/Log.jsx';
 export { useLog } from './src/hooks/useLog';
 export { default as SecurityCheck } from './src/components/SecurityCheck.jsx';
