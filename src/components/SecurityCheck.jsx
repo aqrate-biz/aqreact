@@ -1,5 +1,6 @@
 import React from "react";
 
+import User from "./User.jsx"
 import { useUser } from "../hooks/useUser";
 import SecurityRule from "../lib/SecurityRule";
 
@@ -33,10 +34,8 @@ export default function SecurityCheck({
 
 
     return (
-        <>
-        Security[ {isAllowed}
+        <User userSchema={user.getUserSchema()}>
             { isAllowed ? children : alternativeComponent }
-        ]
-        </>
+        </User>
     )
 }
