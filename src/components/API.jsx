@@ -26,7 +26,7 @@ export default function API({ children, baseUrl, authMode }) {
     }
 
     return (
-        <div class="aqreact-api-provider" data-base-url={baseUrl} data-auth-mode={authMode}>
+        <div className="aqreact-api-provider" data-base-url={baseUrl} data-auth-mode={authMode}>
             <APIContext.Provider value={provider}>
                 {children}
             </APIContext.Provider>
