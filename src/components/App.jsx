@@ -38,9 +38,9 @@ export default function App({ children, config }) {
             </API>
         );
     }
-    if(config.withLog && config.log) {
+    if(config.withLogger && config.logger) {
         children = (
-            <Logger {...config.log}>
+            <Logger {...config.logger}>
                 {children}
             </Logger>
         );
