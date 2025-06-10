@@ -18,18 +18,19 @@ export default function SecurityCheck({
     React.useEffect(() => {
         let allowed = null
         for(const rule of rules) {
-            logger.debug("SecurityCheck rule:", rule);
             const securityRule = new SecurityRule(rule);
             if (!securityRule.isAllowed(user)) {
                 logger.debug("SecurityCheck rule not allowed:", rule);
                 allowed = false;
                 break; 
+            } else {
+                logger.debug("SecurityCheck rule allowed:", rule);
             }
         }
-        logger.info("SecurityCheck all rules checked:", allowed);
         if (allowed !== false) {
             allowed = true;
         }
+        logger.debug("SecurityCheck final result:", user, allowed);
         setIsAllowed(allowed);
     }, [rules, user]);
 

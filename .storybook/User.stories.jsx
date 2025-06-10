@@ -1,7 +1,7 @@
 import React from 'react';
 import User from '../src/components/User';
 import { useUser } from '../src/hooks/useUser';
-
+import Logger from '../src/components/Logger.jsx';
 
 export default {
   component: User,
@@ -23,7 +23,7 @@ console.log("PrintUser user:", user);
 function LoginUser() {
   const user = useUser();
   return (
-    <button onClick={() => user.login({ id: 1, name: 'John Doe', email: 'email@domain.com', role: 'USER' })}>
+    <button onClick={() => user.login({ uid: 1, name: 'John Doe', email: 'email@domain.com', role: 'USER' })}>
       Login as John Doe
     </button>
   );
@@ -32,13 +32,15 @@ function LoginUser() {
 
 export const AuthUser = {
   render: (args) => (
-    <User userSchema={{
-        id: { type: 'string' },
-        name: { type: 'string' },
-        email: { type: 'string' },
-        role: { type: 'string' }}}>
-        <LoginUser />
-        <PrintUser />
-    </User>
+    <Logger>
+      <User userSchema={{
+          id: { type: 'string' },
+          name: { type: 'string' },
+          email: { type: 'string' },
+          role: { type: 'string' }}}>
+          <LoginUser />
+          <PrintUser />
+      </User>
+    </Logger>
   ),
 };
