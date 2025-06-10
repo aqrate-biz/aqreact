@@ -1,6 +1,5 @@
 import React from "react";
 
-import User from "./User.jsx"
 import { useUser } from "../hooks/useUser";
 import SecurityRule from "../lib/SecurityRule";
 import { useLogger } from "../hooks/useLogger.js";
@@ -37,9 +36,7 @@ export default function SecurityCheck({
 
     return (
         <div className="aqreact-security-check" data-is-allowed={isAllowed}>
-            <User userSchema={user.getUserSchema()}>
-                { isAllowed ? children : alternativeComponent }
-            </User>
+            { isAllowed ? children : alternativeComponent }
         </div>
     )
 }
