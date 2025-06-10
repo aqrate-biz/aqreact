@@ -14,6 +14,7 @@ export { useFirebaseAnonymousAuth } from './src/hooks/useFirebaseAnonymousAuth';
 export { useFirebaseAuth } from './src/hooks/useFirebaseAuth';
 export { useFirebaseAuthState } from './src/hooks/useFirebaseAuthState';
 export { useFirebaseGoogleAuth } from './src/hooks/useFirebaseGoogleAuth';
+export { useFirebaseUser } from './src/hooks/useFirebaseUser';
 export { default as Logger } from './src/components/Logger.jsx';
 export { useLogger } from './src/hooks/useLogger.js';
 export { default as SecurityCheck } from './src/components/SecurityCheck.jsx';
