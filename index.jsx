@@ -20,3 +20,4 @@ export { useLogger } from './src/hooks/useLogger.js';
 export { default as SecurityCheck } from './src/components/SecurityCheck.jsx';
 export { default as User } from './src/components/User.jsx';
 export { useUser } from './src/hooks/useUser';
+export { useFirebasePasswordAuth } from "./src/hooks/useFirebasePasswordAuth.js";
