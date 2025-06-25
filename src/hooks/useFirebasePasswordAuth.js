@@ -107,11 +107,9 @@ export function useFirebasePasswordAuth(scopes, language) {
                 });
             })
         },
-        sendPasswordResetEmail: async () => {
-            return new Promise((resolve, reject) => {
-                const user = authState.getCurrentUser();
-                checkUser(user);
-                return sendPasswordResetEmail(auth, user.email).then(() => {
+        sendPasswordResetEmail: async (email) => {
+            return new Promise(async (resolve, reject) => {
+                return sendPasswordResetEmail(auth, email).then(() => {
                     logger.debug("Password reset email sent successfully.");
                     resolve(true);
                 }).catch((error) => {
