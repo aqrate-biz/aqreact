@@ -13,7 +13,7 @@ const DataContext = React.createContext({
 });
 
 
-export default function DataLoader({ children, url, params }) {
+export default function DataLoader({ children, url, params, onStatusChange, onError, onData }) {
 
     const logger = useLogger('DataLoader');
     logger.info("DataLoader component initialized");
@@ -21,23 +21,45 @@ export default function DataLoader({ children, url, params }) {
     const [data, setData] = React.useState(null);
     const [error, setError] = React.useState(null);
     const [status, setStatus] = React.useState('idle');
-    
+
+    const _setStatus = (newStatus) => {
+        setStatus(newStatus);
+        if(onStatusChange) {
+            onStatusChange(newStatus);
+        }
+    }
+
+    const _setError = (newError) => {
+        setError(newError);
+        if(onError) {
+            onError(newError);
+        }
+    }
+
+    const _setData = (newData) => {
+        setData(newData);
+        if(onData) {
+            onData(newData);
+        }
+    }
+
     //TODO altre sorgenti di dati oltre a fetch e possibilità di impostare un intervallo di polling
     React.useEffect(() => {
         async function fetchData() {
-            setStatus('loading');
+            _setStatus('loading');
+
             const response = await fetch(url + (params ? '?' + new URLSearchParams(params) : ''));
             if (!response.ok) {
                 const errorText = await response.text();
                 logger.error("Error fetching data:", errorText);
-                setError(new Error(errorText));
-                setStatus('error');
+                _setError(new Error(errorText));
+                _setStatus('error');
                 return;
             } else {
                 const json = await response.json(); //TODO handle non-JSON responses
                 logger.info("Data fetched successfully:", json);
-                setData(json);
-                setStatus('success');
+                _setData(json);
+                _setStatus('success');
             }
         }
         fetchData();

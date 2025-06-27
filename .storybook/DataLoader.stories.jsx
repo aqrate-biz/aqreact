@@ -23,12 +23,35 @@ function DataDisplay() {
 }
 
 
-export const Data = {
+export const DataWithChildComponent = {
   render: (args) => (
     <Logger>
       <DataLoader url="https://randomuser.me/api/" params={{ results: 5 }}>
           <DataDisplay />
       </DataLoader>
+    </Logger>
+  ),
+};
+
+function DataWithoutChild() {
+  
+    const [status, setStatus] = React.useState('initializing');
+    const [data, setData] = React.useState(null);
+
+  return (
+    <DataLoader url="https://randomuser.me/api/" params={{ results: 5 }} 
+        onStatusChange={setStatus}
+        onData={setData}>
+        {status}
+        <pre>{JSON.stringify(data, null, 2)}</pre>
+    </DataLoader>
+  );
+}
+
+export const DataWithoutChildComponent = {
+  render: (args) => (
+    <Logger>
+      <DataWithoutChild></DataWithoutChild>
     </Logger>
   ),
 };
