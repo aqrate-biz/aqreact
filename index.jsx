@@ -21,3 +21,6 @@ export { default as SecurityCheck } from './src/components/SecurityCheck.jsx';
 export { default as User } from './src/components/User.jsx';
 export { useUser } from './src/hooks/useUser';
 export { useFirebasePasswordAuth } from "./src/hooks/useFirebasePasswordAuth.js";
+export { useFirestore } from './src/hooks/useFirestore';
+export { default as DataLoader } from './src/components/DataLoader.jsx';
+export { useData } from './src/hooks/useData';
